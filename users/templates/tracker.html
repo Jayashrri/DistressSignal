@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <p>Name: {{ name }}</p>
+        <p>Contact: {{ phone }}</p>
+        <table>
+            <tr>
+                <th>Timestamp</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+            </tr>
+            {% for location in locationdata %}
+            <tr>
+                <th>{{ location.timestamp }}</th>
+                <th>{{ location.latitude }}</th>
+                <th>{{ location.longitude }}</th>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
