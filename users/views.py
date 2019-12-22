@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 
 from .models import Profile, Location, Tracker
 from .utils import new_distress, nearest_authority
@@ -11,26 +12,27 @@ from .utils import new_distress, nearest_authority
 
 def location_history(request, uid):
     if request.method == 'GET':
-        user = Tracker.objects.get(uid=uid)
-        profile = Profile.objects.get(id=user.id)
-        history = Location.objects.get(user=user)
+        tracker = Tracker.objects.get(uid=uid)
+        user = tracker.user
+        history = Location.objects.filter(user=user)
         return render(request, 'tracker.html', {'locationdata': history, 
                                                 'name': user.name, 
-                                                'phone': profile.phone })
+                                                'phone': user.phone })
 
 @api_view(['POST'])
+@authentication_classes([SessionAuthentication,TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def distress_signal(request):
-    user = request.user
-    profile = Profile.objects.get(id=user.id)
+    profile = request.user
     #location = request.GET.get('location')
     latitude = request.data['latitude']
     longitude = request.data['longitude']
     if profile.distress ==  False:
         profile.distress = True
+        profile.save()
         index = nearest_authority(latitude, longitude)
-        new_distress(user, index)
+        new_distress(profile, index)
     #print("Latitude: ", latitude, ", Longitude: ", longitude)
-    newLocation = Location(user=user, latitude=latitude, longitude=longitude)
+    newLocation = Location(user=profile, latitude=latitude, longitude=longitude)
     newLocation.save()
     return Response({})
