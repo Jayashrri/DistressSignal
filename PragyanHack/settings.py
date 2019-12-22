@@ -142,3 +142,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#Exotel SMS API
+
+SID = "student730"
+EKEY = "0f4deed5e3343a5c3f68b02c29c7d2e8d5239d2116a50298"
+ETOKEN = "91ca883668eccb74c0bb847520868161874b3752f3d3c726"

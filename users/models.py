@@ -14,8 +14,8 @@ class Profile(AbstractUser):
     distress = models.BooleanField(default=False)
 
 class Location(models.Model):
-    latitude = models.CharField(max_length=20)
-    longitude = models.CharField(max_length=20)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
@@ -23,3 +23,8 @@ class Tracker(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     uid = models.CharField(default=uuid.uuid1(), max_length=100, blank=False, null=False)
 
+class Authorities(models.Model):
+    name = models.CharField(max_length=100)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    phone = models.CharField(max_length=20)

@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Profile, Location, Tracker
-from .utils import new_distress
+from .utils import new_distress, nearest_authority
 
 # Create your views here.
 
@@ -23,12 +23,13 @@ def location_history(request, uid):
 def distress_signal(request):
     user = request.user
     profile = Profile.objects.get(id=user.id)
-    if profile.distress ==  False:
-        profile.distress = True
-        new_distress(user)
     #location = request.GET.get('location')
     latitude = request.data['latitude']
     longitude = request.data['longitude']
+    if profile.distress ==  False:
+        profile.distress = True
+        index = nearest_authority(latitude, longitude)
+        new_distress(user, index)
     #print("Latitude: ", latitude, ", Longitude: ", longitude)
     newLocation = Location(user=user, latitude=latitude, longitude=longitude)
     newLocation.save()

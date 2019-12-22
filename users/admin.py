@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 from django.shortcuts import HttpResponseRedirect
 
-from .models import Profile, Location, Tracker
+from .models import Profile, Location, Tracker, Authorities
 from .forms import ProfileChangeForm, ProfileCreationForm
 
 # Register your models here.
@@ -17,3 +17,4 @@ class ProfileAdmin(UserAdmin):
 admin.site.register(Profile)
 admin.site.register(Location)
 admin.site.register(Tracker)
+admin.site.register(Authorities)
