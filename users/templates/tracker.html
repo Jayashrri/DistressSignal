@@ -6,14 +6,18 @@
         <table>
             <tr>
                 <th>Timestamp</th>
+                <th></th><th></th>
                 <th>Latitude</th>
+                <th></th>
                 <th>Longitude</th>
             </tr>
             {% for location in locationdata %}
             <tr>
-                <th>{{ location.timestamp }}</th>
-                <th>{{ location.latitude }}</th>
-                <th>{{ location.longitude }}</th>
+                <td>{{ location.timestamp }}</td>
+                <td></td><td></td>
+                <td>{{ location.latitude }}</td>
+                <td></td>
+                <td>{{ location.longitude }}</td>
             </tr>
             {% endfor %}
         </table>

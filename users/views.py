@@ -14,7 +14,7 @@ def location_history(request, uid):
     if request.method == 'GET':
         tracker = Tracker.objects.get(uid=uid)
         user = tracker.user
-        history = Location.objects.filter(user=user)
+        history = Location.objects.filter(user=user).order_by('-timestamp')
         return render(request, 'tracker.html', {'locationdata': history, 
                                                 'name': user.name, 
                                                 'phone': user.phone })
